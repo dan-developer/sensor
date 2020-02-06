@@ -52,7 +52,7 @@ if __name__ == "__main__" and __package__ is None:
 
 import struct
 import time
-import smbus
+# import smbus
 import sensor
 from sensor.util import Pressure, Temperature
 
@@ -94,7 +94,7 @@ class BMP180(sensor.SensorBase):
         super(BMP180, self).__init__(
             update_callback = self._update_sensor_data)
 
-        self._bus = smbus.SMBus(bus)
+        # self._bus = smbus.SMBus(bus)
         self._addr = addr
 
         self._ac0 = None
