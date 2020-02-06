@@ -118,10 +118,7 @@ class SensorBase(object):
         self._cache_lifetime = cache_lifetime
 
 
-__all__ = ['DS18B20', 'SHT20', 'HTU21D', 'BMP180', 'MCP3004']
+__all__ = ['SHT20', 'HTU21D']
 
-from .DS18B20 import DS18B20
 from .SHT20 import SHT20
 from .HTU21D import HTU21D
-from .BMP180 import BMP180
-from .MCP3004 import MCP3004
