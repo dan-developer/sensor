@@ -4,11 +4,8 @@ This is a **Python 3** package that enables **Raspberry Pi** to read various
 sensors.
 
 Supported devices include:
-- **DS18B20** temperature sensor
-- **BMP180** pressure and temperature sensor
 - **HTU21D** humidity and temperature sensor
 - **SHT20** humidity and temperature sensor
-- **MCP3004** A/D Converter (**MCP3008** also compatible)
 
 The chief motivation for this package is educational. I am teaching a Raspberry
 Pi course, and find it very troublesome for students having to download a
@@ -64,63 +61,6 @@ benefits:
 - Namedtuples may have methods. For example, a *Pressure* has a method called
   `altitude()`, which tells you how high you are above mean sea level.
 
-## DS18B20
-
-- Temperature, 1-wire
-- To find out the sensor's address:
-
-    ```
-    $ cd /sys/bus/w1/devices/
-    $ ls
-    28-XXXXXXXXXXXX  w1_bus_master1
-    ```
-
-Read the sensor as follows:
-
-```python
-from sensor import DS18B20
-
-ds = DS18B20('28-XXXXXXXXXXXX')
-t = ds.temperature()  # read temperature
-
-print(t)    # this is a namedtuple
-print(t.C)  # Celcius
-print(t.F)  # Fahrenheit
-print(t.K)  # Kelvin
-```
-
-## BMP180
-
-- Pressure + Temperature, I2C
-- Use `i2cdetect -y 1` to check address. It is probably `0x77`.
-
-```python
-from sensor import BMP180
-
-# I2C bus=1, Address=0x77
-bmp = BMP180(1, 0x77)
-
-p = bmp.pressure()  # read pressure
-print(p)            # namedtuple
-print(p.hPa)        # hPa value
-
-t = bmp.temperature()  # read temperature
-print(t)               # namedtuple
-print(t.C)             # Celcius degree
-
-p, t = bmp.all()  # read both at once
-print(p)          # Pressure namedtuple
-print(t)          # Temperature namedtuple
-
-# Look up mean sea level pressure from local observatory.
-# 1009.1 hPa is only for example.
-a = p.altitude(msl=1009.1)
-
-print(a)     # Altitude
-print(a.m)   # in metre
-print(a.ft)  # in feet
-```
-
 ## HTU21D
 
 - Humidity + Temperature, I2C
@@ -163,18 +103,4 @@ print(t)               # namedtuple
 print(t.C)             # Celsius
 
 h, t = sht.all()  # read both at once
-```
-
-## MCP3004
-
-- Analog sensors (e.g. photoresistor) cannot interface with Raspberry Pi
-  directly. They have to go through an A/D converter.
-
-```python
-from sensor import MCP3004
-
-# SPI bus=0, CS=0, V_ref=3.3V
-mcp = MCP3004(bus=0, addr=0, vref=3.3)
-
-mcp.voltage(0)  # read voltage on channel 0
 ```
